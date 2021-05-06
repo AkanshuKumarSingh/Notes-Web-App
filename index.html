@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="toolbar">
-        <div class="fliter_container">
-            <div class="filter pink"></div>
-            <div class="filter blue"></div>
-            <div class="filter green"></div>
-            <div class="filter black"></div>
+        <!-- .filter_container>(.filter_color-container>.filter_color)*4 -->
+        <div class="filter_container">
+            <div class="filter_color-container">
+                <div class="filter_color pink"></div>
+            </div>
+            <div class="filter_color-container">
+                <div class="filter_color blue"></div>
+            </div>
+            <div class="filter_color-container">
+                <div class="filter_color green"></div>
+            </div>
+            <div class="filter_color-container">
+                <div class="filter_color black"></div>
+            </div>
+        </div>
+        <div class="action_container">
+            <div class="icon_container plus">
+                <i class="fas fa-plus icon"></i>
+            </div>
+            <div class="icon_container cross">
+                <i class="fas fa-times icon"></i>
+            </div>
         </div>
     </div>
-    <div class="main-container"></div>
+    <div class="main-container">
+        <!-- <div class="ticket_conatiner">
+            <div class="ticket_color"></div>
+            <div class="ticket_desc_conatiner">
+                <div class="ticket_id">#ExampleId</div>
+                <div class="ticket_desc">Example Text</div>
+            </div>
+        </div> -->
+        <div class="input_text">
+            <div class="ticket_desc_conatiner in">
+                <div class="ticket_id">#ExampleId</div>
+                <div class="ticket_desc">Example Text</div>
+            </div>
+            <div class="color_panel"></div>
+        </div>
+    </div>
     <script src="script.js"></script>
-
 </body>
+
 </html>

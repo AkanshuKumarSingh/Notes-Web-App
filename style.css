@@ -18,28 +18,113 @@ background-color:lightpink;
 .black{
     background-color:black;
 }
-
 .toolbar{
-    padding-top:10px;
-    height:12vh;
+    display: flex;
+    height: 12vh;
     background-color: rgb(32, 29, 29);
+    align-items: center;
 }
 .filter_container{
-    height:70%;
+    height: 70%;
     background-color: darkgray;
-    width:20rem;
+    width: 20rem;
     border-radius: 3px;
-    /* center */
-    margin: 0 auto;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    display: flex;
 }
-.filter{
-    margin-top:3px;
-
-    height:90%;
-    width:22%; 
+.filter_color-container{
+    width: 25%;
+    height: 100%;
+    background: #444;
+    border-right: 1px solid red;
+    /* perefectly center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter_color{
+    height: 40%;
+    width:40%;
+    border-radius: 2px ;
+}
+.action_container{
+    height: 70%;
+    background-color: darkgray;
+    width: 8rem;
+    border-radius: 3px;
+    display: flex;
+}
+.icon_container{
+    height: 100%;
+    width: 50%;
+    border-right: 1px solid red;
+    /* perfectly center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon{
+    font-size:1.5rem;
 }
 
-.main-container{
+ .main-container{
+    padding-top: 3rem;
+    padding-left: 3rem;
     min-height: 88vh;
-    /* background-color: rgb(230, 223, 215); */
+    background-color:lightblue;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    font-family: 'Itim', cursive;
+}
+
+.ticket_container{
+    /* border: 1px red solid; */
+    height: 10rem;
+    width: 14rem;   
+    background-color: white; 
+    border-radius: 10px;
+}
+
+.ticket_color{
+    /* background-color: pink; */
+    height: 7%;
+}
+
+.ticket_desc_conatiner{
+    height: 93%;
+    padding: 0.5rem;
+    overflow: auto;
+    word-break: break-all; /*  to break words if they are taking more space than the box */
+}
+
+.ticket_id{
+    margin-bottom:11px;
+    font-weight: 800;
+    color: lightslategray;
+}
+
+.ticket_desc{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.input_text{
+    background: white;
+    height: 40vh;
+    width: 60vh;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+}
+.color_panel{
+    background: gray;
+    width: 30%;
+    height: 100%;
+}
+
+.in{
+    height: 100%;
+    width: 70%;
 }
