@@ -10,13 +10,13 @@ body{
 background-color:lightpink;
 }
 .blue{
-    background-color:lightblue;
+    background-color:rgb(58, 188, 231);
 }
 .green{
     background-color:lightgreen;
 }
 .black{
-    background-color:black;
+    background-color:rgba(0, 0, 0, 0.596);
 }
 .toolbar{
     display: flex;
@@ -69,11 +69,13 @@ background-color:lightpink;
 }
 
  .main-container{
-    padding-top: 3rem;
-    padding-left: 3rem;
     min-height: 88vh;
+    padding-top: 3rem;
+    padding-right: 1vw;
+    padding-left: 3vw;
     background-color:lightblue;
     display: flex;
+    align-items: baseline;
     justify-content: space-around;
     flex-wrap: wrap;
     font-family: 'Itim', cursive;
@@ -109,15 +111,17 @@ background-color:lightpink;
     text-align: center;
     font-size: 1.2rem;
     width: 100%;
-    height: 85%;
+    height: 70%;
     border: none;
 }
 
 .modal_container{
     width:31rem;
     height: 18rem;
-    display: flex;
-    /* position: absolute; */
+    /* display: flex; */
+    box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.637);
+    position: absolute;
+    display: none;
 }
 
 .task_container{
@@ -135,6 +139,8 @@ background-color:lightpink;
     height: 100%;
     width: 100%;
     padding: 2rem;
+    font-family: 'Itim', cursive;
+    font-size: 1.4rem;
 }
 
 .modal-color{
@@ -148,4 +154,8 @@ background-color:lightpink;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.border{
+    margin: black;
 }
