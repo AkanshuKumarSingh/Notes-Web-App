@@ -4,9 +4,11 @@ let mainContainer = document.querySelector(".main-container");
 let modalContainer = document.querySelector(".modal_container");
 let taskBox = document.querySelector(".task_box");
 let plusBtn = document.querySelector(".plus");
+let filterContainers = document.querySelectorAll(".filter_color-container");
 let modalFlag = false;
 let iColor = "black";
 let colors = ["pink", "blue", "green", "black"];
+
 
 
 for (let i = 0; i < filterColor.length; i++) {
@@ -100,4 +102,31 @@ function addFunctionality(taskContainer) {
     })
 }
 
+//  filtering colors
+let prevColor = null;
+for (let i = 0; i < filterContainers.length; i++) {
+    filterContainers[i].addEventListener("click",function(){
+        let child = filterContainers[i].children[0];
+        let color = child.classList[1];
+        if(prevColor == color){
+            let ticketContainers = document.querySelectorAll(".ticket_container");
+            for (let j = 0; j < ticketContainers.length; j++) {
+                ticketContainers[j].style.display = "block";
+            }
+            prevColor = null;        
+        }else{
+            let ticketContainers = document.querySelectorAll(".ticket_container");
+            for (let j = 0; j < ticketContainers.length; j++) {
+                let ticketColor = ticketContainers[j].children[0];
+                let myColor = ticketColor.classList[1];
+                if(myColor == color){
+                    ticketContainers[j].style.display = "block";
+                }else{
+                    ticketContainers[j].style.display = "none";
+                }
+            }
+            prevColor = color;
+        }
+    })    
+}
 
