@@ -8,11 +8,36 @@ let filterContainers = document.querySelectorAll(".filter_color-container");
 let modalFlag = false;
 let iColor = "black";
 let colors = ["pink", "blue", "green", "black"];
+let allTasks = [];
 
+if(localStorage.getItem("allTasks")){
+    let strArr = localStorage.getItem("allTasks");
+    allTasks = JSON.parse(strArr);
 
+    for (let i = 0; i < allTasks.length; i++) {
+        createTicketFromLocalStorage(allTasks[i]);
+    }
+}
 
+function createTicketFromLocalStorage(taskObj) {
+    let {id,color,task} = taskObj;
+    let taskContainer = document.createElement("div");
+    taskContainer.setAttribute("class","ticket_container");
+    taskContainer.innerHTML = 
+    `<div class="ticket_color ${color}"></div>
+        <div class="ticket_desc_conatiner">
+            <div class="ticket_id">${id}</div>
+            <div class="ticket_desc">${task}</div>
+        </div>
+    `;
+    mainContainer.appendChild(taskContainer);
+
+}
+
+// see it
 for (let i = 0; i < filterColor.length; i++) {
     filterColor[i].addEventListener("click", function () {
+        console.log("sdjads");
         let classes = filterColor[i].getAttribute("class");
         // console.log(classes);
         let strArr = classes.split(" ");
@@ -26,6 +51,7 @@ for (let i = 0; i < filterColor.length; i++) {
     })
 }
 
+// adding task
 plusBtn.addEventListener("click", function () {
     // let task = prompt("Enter Your Task");
     // let color = prompt("Color");
@@ -54,20 +80,32 @@ plusBtn.addEventListener("click", function () {
     modalContainer.style.display = "flex";  
 })
 
+
 taskBox.addEventListener("keydown",function (e) {
     if(e.key == "Enter" && taskBox.value != ""){
         let taskContainer = document.createElement("div");
         let task = taskBox.value;
         taskContainer.setAttribute("class", "ticket_container");
+        let id = Math.random().toString(32).slice(2);
         taskContainer.innerHTML = `
         <div class="ticket_color ${iColor}"></div>
         <div class="ticket_desc_conatiner">
-            <div class="ticket_id">#ExampleId</div>
+            <div class="ticket_id">${id}</div>
             <div class="ticket_desc">${task}</div>
         </div>
     `;
     mainContainer.appendChild(taskContainer);
     //clean up code
+    
+    let ticketObj  = {};
+    ticketObj.task = task;
+    ticketObj.color = iColor;
+    ticketObj.id = id;
+
+    allTasks.push(ticketObj);
+    let strArr = JSON.stringify(allTasks);
+    localStorage.setItem("allTasks",strArr);
+
     modalContainer.style.display = "none";
     taskBox.value = ""; 
     iColor = "black";
@@ -75,6 +113,7 @@ taskBox.addEventListener("keydown",function (e) {
     }
 })
 
+// adding border to input task card color
 for (let i = 0; i < modalColors.length; i++) {
     modalColors[i].addEventListener("click",function() {
         let color = modalColors[i].classList[1];
@@ -89,6 +128,7 @@ for (let i = 0; i < modalColors.length; i++) {
     
 }
 
+// adding new color to each task
 function addFunctionality(taskContainer) {
     let ticketColor = taskContainer.querySelector(".ticket_color");
     ticketColor.addEventListener("click",function () {

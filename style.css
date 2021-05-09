@@ -36,7 +36,7 @@ background-color:lightpink;
 .filter_color-container{
     width: 25%;
     height: 100%;
-    background: #444;
+    background: #535c68;
     border-right: 1px solid red;
     /* perefectly center */
     display: flex;
@@ -158,4 +158,8 @@ background-color:lightpink;
 
 .border{
     border: 5px solid black;
+}
+
+.toolbar_selector{
+
 }
