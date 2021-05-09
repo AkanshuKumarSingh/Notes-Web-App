@@ -31,7 +31,7 @@ function createTicketFromLocalStorage(taskObj) {
         </div>
     `;
     mainContainer.appendChild(taskContainer);
-
+    addFunctionality(taskContainer);
 }
 
 // see it
@@ -90,7 +90,7 @@ taskBox.addEventListener("keydown",function (e) {
         taskContainer.innerHTML = `
         <div class="ticket_color ${iColor}"></div>
         <div class="ticket_desc_conatiner">
-            <div class="ticket_id">${id}</div>
+            <div class="ticket_id">#${id}</div>
             <div class="ticket_desc">${task}</div>
         </div>
     `;
@@ -138,7 +138,17 @@ function addFunctionality(taskContainer) {
         let newColor = colors[newIdx];
         ticketColor.classList.remove(cColor);
         ticketColor.classList.add(newColor);
-
+        let ticketEleId = taskContainer.querySelector(".ticket_id");
+        let id = ticketEleId.innerText;
+        for (let i = 0; i < allTasks.length; i++) {
+            console.log(allTasks[i].id);
+            console.log(id);
+            if(allTasks[i].id == id){
+                allTasks[i].color = newColor;
+                let strArr = JSON.stringify(allTasks);
+                localStorage.setItem('allTasks',strArr); 
+            }
+        }
     })
 }
 
