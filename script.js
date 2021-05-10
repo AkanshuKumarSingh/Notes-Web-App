@@ -4,11 +4,15 @@ let mainContainer = document.querySelector(".main-container");
 let modalContainer = document.querySelector(".modal_container");
 let taskBox = document.querySelector(".task_box");
 let plusBtn = document.querySelector(".plus");
+let crossBtn = document.querySelector(".icon_container.cross");
 let filterContainers = document.querySelectorAll(".filter_color-container");
 let modalFlag = false;
 let iColor = "black";
 let colors = ["pink", "blue", "green", "black"];
 let allTasks = [];
+let lock = document.querySelector(".lock");
+let unlock = document.querySelector(".unlock");
+unlock.style.display = "none";
 
 if(localStorage.getItem("allTasks")){
     let strArr = localStorage.getItem("allTasks");
@@ -180,3 +184,41 @@ for (let i = 0; i < filterContainers.length; i++) {
     })    
 }
 
+//delete
+crossBtn.addEventListener("click",function f() {
+    let ticketContainers = document.querySelectorAll(".ticket_container");
+    for (let i = 0; i < ticketContainers.length; i++) {
+        ticketContainers[i].addEventListener("click",function fxn() {
+            ticketContainers[i].remove();
+            for (let j = 0; j < ticketContainers.length; j++) {
+                ticketContainers[j].removeEventListener("click",fxn);
+            }
+            crossBtn.removeEventListener("click",f);       
+        })
+    }
+})
+
+//handle lock btn
+lock.addEventListener("click",function () {
+    unlock.style.display = "flex";
+    lock.style.display = "none";
+    let tasks = document.querySelectorAll(".ticket_desc");
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(i);
+        tasks[i].addEventListener("click",lockInactive(tasks[i]))
+    }
+})
+function lockInactive(t) {
+    t.contentEditable = "true";
+}
+
+
+unlock.addEventListener("click",function () {
+    lock.style.display = "flex";
+    unlock.style.display = "none";
+    let tasks = document.querySelectorAll(".ticket_desc");
+    for (let i = 0; i < tasks.length; i++) {
+        tasks[i].contentEditable = "false";
+        tasks[i].removeEventListener("click",lockInactive)
+    }
+})
