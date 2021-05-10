@@ -12,9 +12,10 @@ let colors = ["pink", "blue", "green", "black"];
 let allTasks = [];
 let lock = document.querySelector(".lock");
 let unlock = document.querySelector(".unlock");
+let crossClicked = null;
 unlock.style.display = "none";
 
-if(localStorage.getItem("allTasks")){
+if (localStorage.getItem("allTasks")) {
     let strArr = localStorage.getItem("allTasks");
     allTasks = JSON.parse(strArr);
 
@@ -24,11 +25,11 @@ if(localStorage.getItem("allTasks")){
 }
 
 function createTicketFromLocalStorage(taskObj) {
-    let {id,color,task} = taskObj;
+    let { id, color, task } = taskObj;
     let taskContainer = document.createElement("div");
-    taskContainer.setAttribute("class","ticket_container");
-    taskContainer.innerHTML = 
-    `<div class="ticket_color ${color}"></div>
+    taskContainer.setAttribute("class", "ticket_container");
+    taskContainer.innerHTML =
+        `<div class="ticket_color ${color}"></div>
         <div class="ticket_desc_conatiner">
             <div class="ticket_id">${id}</div>
             <div class="ticket_desc">${task}</div>
@@ -36,6 +37,7 @@ function createTicketFromLocalStorage(taskObj) {
     `;
     mainContainer.appendChild(taskContainer);
     addFunctionality(taskContainer);
+    deleteDiv(taskContainer);
 }
 
 // see it
@@ -81,12 +83,12 @@ plusBtn.addEventListener("click", function () {
     // `;
     //     mainContainer.appendChild(taskContainer);
     // }
-    modalContainer.style.display = "flex";  
+    modalContainer.style.display = "flex";
 })
 
 
-taskBox.addEventListener("keydown",function (e) {
-    if(e.key == "Enter" && taskBox.value != ""){
+taskBox.addEventListener("keydown", function (e) {
+    if (e.key == "Enter" && taskBox.value != "") {
         let taskContainer = document.createElement("div");
         let task = taskBox.value;
         taskContainer.setAttribute("class", "ticket_container");
@@ -98,28 +100,29 @@ taskBox.addEventListener("keydown",function (e) {
             <div class="ticket_desc">${task}</div>
         </div>
     `;
-    mainContainer.appendChild(taskContainer);
-    //clean up code
-    
-    let ticketObj  = {};
-    ticketObj.task = task;
-    ticketObj.color = iColor;
-    ticketObj.id = id;
+        mainContainer.appendChild(taskContainer);
+        //clean up code
 
-    allTasks.push(ticketObj);
-    let strArr = JSON.stringify(allTasks);
-    localStorage.setItem("allTasks",strArr);
+        let ticketObj = {};
+        ticketObj.task = task;
+        ticketObj.color = iColor;
+        ticketObj.id = id;
 
-    modalContainer.style.display = "none";
-    taskBox.value = ""; 
-    iColor = "black";
-    addFunctionality(taskContainer); 
+        allTasks.push(ticketObj);
+        let strArr = JSON.stringify(allTasks);
+        localStorage.setItem("allTasks", strArr);
+
+        modalContainer.style.display = "none";
+        taskBox.value = "";
+        iColor = "black";
+        addFunctionality(taskContainer);
+        deleteDiv(taskContainer);
     }
 })
 
 // adding border to input task card color
 for (let i = 0; i < modalColors.length; i++) {
-    modalColors[i].addEventListener("click",function() {
+    modalColors[i].addEventListener("click", function () {
         let color = modalColors[i].classList[1];
         iColor = color;
 
@@ -129,16 +132,16 @@ for (let i = 0; i < modalColors.length; i++) {
 
         modalColors[i].classList.add("border");
     })
-    
+
 }
 
 // adding new color to each task
 function addFunctionality(taskContainer) {
     let ticketColor = taskContainer.querySelector(".ticket_color");
-    ticketColor.addEventListener("click",function () {
+    ticketColor.addEventListener("click", function () {
         let cColor = ticketColor.classList[1];
         let idx = colors.indexOf(cColor);
-        let newIdx = (idx + 1)%4;
+        let newIdx = (idx + 1) % 4;
         let newColor = colors[newIdx];
         ticketColor.classList.remove(cColor);
         ticketColor.classList.add(newColor);
@@ -147,10 +150,10 @@ function addFunctionality(taskContainer) {
         for (let i = 0; i < allTasks.length; i++) {
             console.log(allTasks[i].id);
             console.log(id);
-            if(allTasks[i].id == id){
+            if (allTasks[i].id == id) {
                 allTasks[i].color = newColor;
                 let strArr = JSON.stringify(allTasks);
-                localStorage.setItem('allTasks',strArr); 
+                localStorage.setItem('allTasks', strArr);
             }
         }
     })
@@ -159,53 +162,74 @@ function addFunctionality(taskContainer) {
 //  filtering colors
 let prevColor = null;
 for (let i = 0; i < filterContainers.length; i++) {
-    filterContainers[i].addEventListener("click",function(){
+    filterContainers[i].addEventListener("click", function () {
         let child = filterContainers[i].children[0];
         let color = child.classList[1];
-        if(prevColor == color){
+        if (prevColor == color) {
             let ticketContainers = document.querySelectorAll(".ticket_container");
             for (let j = 0; j < ticketContainers.length; j++) {
                 ticketContainers[j].style.display = "block";
             }
-            prevColor = null;        
-        }else{
+            prevColor = null;
+        } else {
             let ticketContainers = document.querySelectorAll(".ticket_container");
             for (let j = 0; j < ticketContainers.length; j++) {
                 let ticketColor = ticketContainers[j].children[0];
                 let myColor = ticketColor.classList[1];
-                if(myColor == color){
+                if (myColor == color) {
                     ticketContainers[j].style.display = "block";
-                }else{
+                } else {
                     ticketContainers[j].style.display = "none";
                 }
             }
             prevColor = color;
         }
-    })    
+    })
 }
 
 //delete
-crossBtn.addEventListener("click",function f() {
-    let ticketContainers = document.querySelectorAll(".ticket_container");
-    for (let i = 0; i < ticketContainers.length; i++) {
-        ticketContainers[i].addEventListener("click",function fxn() {
-            ticketContainers[i].remove();
-            for (let j = 0; j < ticketContainers.length; j++) {
-                ticketContainers[j].removeEventListener("click",fxn);
-            }
-            crossBtn.removeEventListener("click",f);       
-        })
+crossBtn.addEventListener("click", function () {
+    if(crossClicked == null){
+        crossClicked = "clicked";
+    }else{
+        crossClicked = null;
     }
+    console.log("cl");
 })
 
+function deleteDiv(taskContainerCurr) {
+    taskContainerCurr.addEventListener("click",function () {
+        if(crossClicked){
+            taskContainerCurr.remove();
+        }
+    })
+}
+
+
+// crossBtn.addEventListener("click",croosBtnActive)
+
+// function croosBtnActive() {
+//     let ticketContainers = document.querySelectorAll(".ticket_container");
+//     for (let i = 0; i < ticketContainers.length; i++) {
+//         ticketContainers[i].addEventListener("click",deleteDiv(ticketContainers[i],ticketContainers))
+//     }
+// }
+
+// function deleteDiv(t,ticketContainers) {
+//     t.remove();
+//     for (let j = 0; j < ticketContainers.length; j++) {
+//         ticketContainers[j].removeEventListener("click",deleteDiv);
+//     }       
+// }
+
 //handle lock btn
-lock.addEventListener("click",function () {
+lock.addEventListener("click", function () {
     unlock.style.display = "flex";
     lock.style.display = "none";
     let tasks = document.querySelectorAll(".ticket_desc");
     for (let i = 0; i < tasks.length; i++) {
         console.log(i);
-        tasks[i].addEventListener("click",lockInactive(tasks[i]))
+        tasks[i].addEventListener("click", lockInactive(tasks[i]))
     }
 })
 function lockInactive(t) {
@@ -213,12 +237,12 @@ function lockInactive(t) {
 }
 
 
-unlock.addEventListener("click",function () {
+unlock.addEventListener("click", function () {
     lock.style.display = "flex";
     unlock.style.display = "none";
     let tasks = document.querySelectorAll(".ticket_desc");
     for (let i = 0; i < tasks.length; i++) {
         tasks[i].contentEditable = "false";
-        tasks[i].removeEventListener("click",lockInactive)
+        tasks[i].removeEventListener("click", lockInactive)
     }
 })
