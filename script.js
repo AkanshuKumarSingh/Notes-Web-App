@@ -162,7 +162,13 @@ function addFunctionality(taskContainer) {
     ticketDsc.addEventListener("keydown",function(e) {
         if(e.key == 'Enter' && ticketDsc.value != ""){
             let siblings  = ticketDsc.parentNode.children[0];
-            console.log(siblings.innerText);
+            for (let i = 0; i < allTasks.length; i++) {
+                if(allTasks[i].id == siblings.innerText){
+                    allTasks[i].task = ticketDsc.innerText;
+                    let strArr = JSON.stringify(allTasks);
+                    localStorage.setItem('allTasks', strArr);
+                }
+            }
             ticketDsc.removeAttribute("contentEditable");
         }
         ticketDsc.contentEditable = "true";
@@ -211,6 +217,17 @@ crossBtn.addEventListener("click", function () {
 function deleteDiv(taskContainerCurr) {
     taskContainerCurr.addEventListener("click",function () {
         if(crossClicked){
+            let id = taskContainerCurr.parentNode.children[1].children[0].innerText;
+            let idx = 0;
+            for (let i = 0; i < allTasks.length; i++) {
+                if(allTasks[i].id == id){
+                    idx = i;
+                    break;
+                }
+            }
+            allTasks.splice(idx,1);
+            let strArr = JSON.stringify(allTasks);
+            localStorage.setItem('allTasks', strArr);
             taskContainerCurr.remove();
         }
     })
