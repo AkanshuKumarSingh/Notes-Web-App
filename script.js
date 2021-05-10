@@ -157,6 +157,17 @@ function addFunctionality(taskContainer) {
             }
         }
     })
+
+    let ticketDsc = taskContainer.querySelector(".ticket_desc");
+    ticketDsc.addEventListener("keydown",function(e) {
+        if(e.key == 'Enter' && ticketDsc.value != ""){
+            let siblings  = ticketDsc.parentNode.children[0];
+            console.log(siblings.innerText);
+            ticketDsc.removeAttribute("contentEditable");
+        }
+        ticketDsc.contentEditable = "true";
+    })
+
 }
 
 //  filtering colors
